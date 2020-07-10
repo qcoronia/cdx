@@ -9,4 +9,10 @@
     <Copyright>Paul Coronia</Copyright>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="cdx.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

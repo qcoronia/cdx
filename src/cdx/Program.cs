@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -64,11 +65,20 @@ namespace dirx
                 key = Console.ReadKey(true);
             }
 
-            Directory.SetCurrentDirectory(context.ActiveDir);
+            SetPath(context.ActiveDir);
 
             Console.ResetColor();
+            Environment.Exit(0);
+        }
 
-            Console.WriteLine($"The current dir is now: '{Directory.GetCurrentDirectory()}'");
+        private static void SetPath(string dir)
+        {
+            var curProcess = Process.GetCurrentProcess();
+            var programPath = Directory.GetParent(curProcess.MainModule.FileName).FullName;
+
+            var batFileContents = $"@echo off\ncd /d \"{dir}\"\n";
+            var batFilePath = Path.Combine(programPath, "dest.bat");
+            File.WriteAllText(batFilePath, batFileContents);
         }
 
         private static void Render(DirContext context, string prevPrint)
